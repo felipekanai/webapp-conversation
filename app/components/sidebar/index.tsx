@@ -24,17 +24,17 @@ export type ISidebarProps = {
 }
 
 const Sidebar: FC<ISidebarProps> = ({
-  copyRight,
-  currentId,
-  onCurrentIdChange,
-  list,
-}) => {
+                                      copyRight,
+                                      currentId,
+                                      onCurrentIdChange,
+                                      list,
+                                    }) => {
   const { t } = useTranslation()
   return (
     <div
       className="shrink-0 flex flex-col overflow-y-auto bg-white pc:w-[244px] tablet:w-[192px] mobile:w-[240px]  border-r border-gray-200 tablet:h-[calc(100vh_-_3rem)] mobile:h-screen"
     >
-      {list.length < MAX_CONVERSATION_LENTH && (
+      {list && list.length < MAX_CONVERSATION_LENTH && (
         <div className="flex flex-shrink-0 p-4 !pb-0">
           <Button
             onClick={() => { onCurrentIdChange('-1') }}

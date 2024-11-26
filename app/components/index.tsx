@@ -106,7 +106,7 @@ const Main: FC = () => {
     let notSyncToStateIntroduction = ''
     let notSyncToStateInputs: Record<string, any> | undefined | null = {}
     if (!isNewConversation) {
-      const item = conversationList.find(item => item.id === currConversationId)
+      const item = (conversationList || []).find(item => item.id === currConversationId)
       notSyncToStateInputs = item?.inputs || {}
       setCurrInputs(notSyncToStateInputs as any)
       notSyncToStateIntroduction = item?.introduction || ''
@@ -179,10 +179,10 @@ const Main: FC = () => {
   const canEditInputs = !chatList.some(item => item.isAnswer === false) && isNewConversation
   const createNewChat = () => {
     // if new chat is already exist, do not create new chat
-    if (conversationList.some(item => item.id === '-1'))
+    if ((conversationList || []).some(item => item.id === '-1'))
       return
 
-    setConversationList(produce(conversationList, (draft) => {
+    setConversationList(produce((conversationList || []), (draft) => {
       draft.unshift({
         id: '-1',
         name: t('app.chat.newChatDefaultName'),
@@ -230,7 +230,7 @@ const Main: FC = () => {
           return
         }
         const _conversationId = getConversationIdFromStorage(APP_ID)
-        const isNotNewConversation = conversations.some(item => item.id === _conversationId)
+        const isNotNewConversation = (conversations || []).some(item => item.id === _conversationId)
 
         // fetch new conversation info
         const { user_input_form, opening_statement: introduction, file_upload, system_parameters }: any = appParams
